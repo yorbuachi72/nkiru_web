@@ -1,39 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowRight, CheckCircle, Users, Award, Clock, Shield, Zap, RotateCcw, Code, BarChart3, ChevronLeft, ChevronRight, User, Calendar, Mail, Phone, MapPin, Star } from 'lucide-react';
+import { ArrowRight, Brain, Zap, Code, Target, ChevronLeft, ChevronRight, Star, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { useScrollAnimation, useSmoothScroll } from '../hooks/useScrollAnimation';
-import { usePreload, usePerformanceMonitor } from '../hooks/usePerformance';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
 import { useAnalytics } from '../hooks/useAnalytics';
-import LazyImage from '../components/LazyImage';
 
 export default function Home() {
   const [activeTestimonial, setActiveTestimonial] = useState(0);
-  
-  // Initialize smooth scroll behavior
-  useSmoothScroll();
-  const { preloadImage } = usePreload();
-  const performanceMetrics = usePerformanceMonitor();
   const { trackPageView, trackEvent } = useAnalytics();
 
-  // Preload critical images and track page view
   useEffect(() => {
-    // Track page view
     trackPageView('Home');
-    
-    // Preload hero background or key images
-    preloadImage('/hero-bg.jpg');
-    preloadImage('/team-photo.jpg');
-  }, [preloadImage, trackPageView]);
+  }, [trackPageView]);
   
-  // Animation refs for each section
   const heroAnimation = useScrollAnimation(0.2);
   const servicesAnimation = useScrollAnimation(0.2);
   const projectsAnimation = useScrollAnimation(0.2);
-  const teamAnimation = useScrollAnimation(0.2);
-  const testimonialsAnimation = useScrollAnimation(0.2);
-  const contactAnimation = useScrollAnimation(0.2);
   
   const testimonials = [
     {
@@ -53,469 +36,188 @@ export default function Home() {
     }
   ];
 
-  const currentTestimonial = activeTestimonial;
-
   const nextTestimonial = () => {
     setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
-    trackEvent('testimonial_navigation', { direction: 'next', testimonial_index: (activeTestimonial + 1) % testimonials.length });
   };
 
   const prevTestimonial = () => {
     setActiveTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length);
-    trackEvent('testimonial_navigation', { direction: 'previous', testimonial_index: (activeTestimonial - 1 + testimonials.length) % testimonials.length });
-  };
-
-  const handleCTAClick = (location: string) => {
-    trackEvent('cta_click', { location });
   };
 
   return (
-    <div className="bg-white" style={{ fontFamily: 'Arial, sans-serif' }}>
+    <div className="bg-background min-h-screen">
       <Header />
 
-      {/* Hero Section - Responsive Design */}
-      <section className="bg-white py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto relative">
-          <div className="flex flex-col">
-            {/* Main Headline with Body Text and CTA - Responsive Layout */}
-            <div className="relative">
-              <h1 
-                className="text-black leading-none"
-                style={{
-                  fontSize: 'clamp(36px, 8vw, 72px)',
-                  lineHeight: 'clamp(45px, 10vw, 90px)',
-                  letterSpacing: 'clamp(-0.9px, -0.025vw, -1.8px)',
-                  fontFamily: 'Arial, sans-serif',
-                  fontWeight: 'bold',
-                  maxWidth: '100%'
-                }}
-              >
-                <div>BEHOLD WHAT'S</div>
-                <div>NEXT —</div>
-                <div>AI-DRIVEN,</div>
-                <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between">
-                  <span className="mb-6 lg:mb-0">HUMAN-CENTERED.</span>
-                  <div className="flex flex-col items-center lg:items-end lg:ml-8 w-full lg:w-auto" style={{ maxWidth: '400px' }}>
-                    {/* Body Text positioned above CTA */}
-                    <p 
-                      className="text-black text-center lg:text-right mb-6"
-                      style={{
-                        fontFamily: 'Arial, sans-serif',
-                        fontSize: 'clamp(16px, 2.5vw, 18px)',
-                        lineHeight: 'clamp(24px, 3.5vw, 29px)',
-                        letterSpacing: '0.45px'
-                      }}
-                    >
-                      WE ENGINEER ADVANCED AI SOLUTIONS, BOLD STRATEGIES, AND PERFECT EXECUTION THAT TURN AMBITION INTO ACHIEVEMENT.
-                    </p>
-                    {/* CTA Button */}
-                    <Link
-                      to="/contact#get-in-touch"
-                      onClick={() => handleCTAClick('hero')}
-                      className="bg-black text-white hover:bg-gray-800 focus:bg-gray-800 transition-colors duration-200 touch-manipulation rounded-lg"
-                      style={{
-                        minWidth: '140px',
-                        minHeight: '44px',
-                        fontFamily: 'Arial, sans-serif',
-                        fontSize: '16px',
-                        border: 'none',
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        textDecoration: 'none',
-                        flexShrink: 0,
-                        padding: '10px 20px'
-                      }}
-                    >
-                        LET'S TALK
-                      </Link>
+      {/* Hero Section */}
+      <section className="relative overflow-hidden pt-20 pb-32">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl">
+          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-accent-cyan/20 blur-[120px] rounded-full" />
+          <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-accent-violet/20 blur-[120px] rounded-full" />
+        </div>
+
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
+          <div className="flex flex-col items-center text-center space-y-8">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm animate-fadeInUp">
+              <span className="w-2 h-2 rounded-full bg-accent-cyan animate-pulse" />
+              <span className="text-[10px] tracking-[0.2em] font-heading font-bold uppercase text-white/70">Human-Centered AI Startup</span>
+            </div>
+            
+            <h1 className="text-hero text-center max-w-4xl animate-fadeInUp stagger-1">
+              BEHOLD WHAT'S<br />
+              <span className="bg-clip-text text-transparent bg-gradient-neon">NEXT —</span><br />
+              AI-DRIVEN.
+            </h1>
+            
+            <p className="text-body-large text-white/60 max-w-2xl animate-fadeInUp stagger-2">
+              WE ENGINEER ADVANCED AI SOLUTIONS, BOLD STRATEGIES, AND PERFECT EXECUTION THAT TURN AMBITION INTO ACHIEVEMENT.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 pt-4 animate-fadeInUp stagger-3">
+              <Link to="/contact" className="btn-neon !text-xs tracking-[0.2em]">
+                START A PROJECT
+              </Link>
+              <Link to="/services" className="px-8 py-3 rounded-lg font-heading font-semibold border border-white/10 hover:bg-white/5 transition-all text-xs tracking-[0.2em]">
+                OUR SERVICES
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Services Section */}
+      <section className="py-32 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+            <div className="space-y-4">
+              <h4 className="text-accent-cyan font-heading font-bold text-xs uppercase tracking-[0.3em]">Specializations</h4>
+              <h2 className="text-section-title">FUTURE-PROOF<br />SOLUTIONS</h2>
+            </div>
+            <p className="text-white/40 max-w-md font-body text-sm leading-relaxed">
+              We provide enterprise-grade technology services focused on intelligent automation and digital modernization.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { title: 'AI Solutions', icon: Brain, color: 'text-accent-cyan', desc: 'Custom machine learning models for enterprise scale.' },
+              { title: 'Digital Transformation', icon: Zap, color: 'text-accent-violet', desc: 'Modernizing core infrastructure for the digital age.' },
+              { title: 'Software Development', icon: Code, color: 'text-accent-neon', desc: 'Scalable, high-performance application engineering.' },
+              { title: 'Strategic Consulting', icon: Target, color: 'text-white', desc: 'Expert guidance on navigating the AI landscape.' }
+            ].map((service, i) => (
+              <div key={service.title} className="glass-card p-8 group hover:-translate-y-2 transition-all">
+                <service.icon className={`w-10 h-10 mb-6 ${service.color} group-hover:scale-110 transition-transform`} />
+                <h3 className="text-xl mb-4 uppercase tracking-tighter">{service.title}</h3>
+                <p className="text-white/40 text-sm font-body leading-relaxed">{service.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Latest Project */}
+      <section className="py-32 bg-white/5 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div className="space-y-8">
+              <div className="inline-block px-3 py-1 rounded-sm bg-accent-violet/20 border border-accent-violet/30 text-accent-violet text-[10px] font-bold tracking-[0.2em] uppercase">
+                Featured Case Study
+              </div>
+              <h2 className="text-5xl font-heading tracking-tighter">ENTERPRISE<br />AI PLATFORM</h2>
+              <p className="text-white/60 font-body leading-relaxed">
+                A comprehensive AI platform that revolutionized data processing for a Fortune 500 company, resulting in 40% efficiency gains and real-time decision intelligence.
+              </p>
+              <div className="flex gap-12 border-y border-white/10 py-8">
+                <div>
+                  <div className="text-accent-cyan text-3xl font-heading font-bold">40%</div>
+                  <div className="text-white/30 text-[10px] uppercase tracking-widest mt-2">Efficiency Gain</div>
+                </div>
+                <div>
+                  <div className="text-accent-violet text-3xl font-heading font-bold">2.4M</div>
+                  <div className="text-white/30 text-[10px] uppercase tracking-widest mt-2">Data Points/Sec</div>
+                </div>
+              </div>
+              <Link to="/projects" className="inline-flex items-center gap-2 text-white hover:text-accent-cyan transition-colors font-heading text-xs tracking-widest group">
+                VIEW PROJECT DETAILS <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
+
+            <div className="relative aspect-square lg:aspect-video rounded-2xl overflow-hidden border border-white/10 glass-card p-4">
+               <div className="w-full h-full bg-gradient-to-br from-white/10 to-transparent rounded-xl flex items-center justify-center">
+                  <div className="w-2/3 h-2/3 border border-white/5 rounded-lg bg-black/40 backdrop-blur-md p-6 relative">
+                    <div className="flex gap-2 mb-4">
+                      <div className="w-2 h-2 rounded-full bg-red-500/50" />
+                      <div className="w-2 h-2 rounded-full bg-yellow-500/50" />
+                      <div className="w-2 h-2 rounded-full bg-green-500/50" />
+                    </div>
+                    <div className="space-y-3">
+                      <div className="h-2 w-3/4 bg-white/10 rounded-full" />
+                      <div className="h-2 w-1/2 bg-white/10 rounded-full" />
+                      <div className="h-2 w-5/6 bg-accent-cyan/20 rounded-full" />
+                      <div className="grid grid-cols-3 gap-2 mt-6">
+                        <div className="h-12 bg-white/5 rounded-md" />
+                        <div className="h-12 bg-white/5 rounded-md" />
+                        <div className="h-12 bg-accent-violet/20 rounded-md border border-accent-violet/30" />
+                      </div>
+                    </div>
+                    <div className="absolute bottom-6 right-6 w-12 h-12 rounded-full bg-accent-cyan/20 blur-xl animate-pulse" />
                   </div>
-                </div>
-              </h1>
+               </div>
             </div>
           </div>
         </div>
       </section>
 
-
-
-      {/* Services Section - Responsive Design */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: '#000000' }}>
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 
-              className="text-white mb-8"
-              style={{
-                fontSize: 'clamp(32px, 6vw, 48px)',
-                fontFamily: 'Arial, sans-serif',
-                fontWeight: 'bold'
-              }}
-            >
-              Our Services
-            </h2>
-          </div>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="text-center text-white">
-              <h3 
-                className="text-white mb-4"
-                style={{
-                  fontSize: '24px',
-                  fontFamily: 'Arial, sans-serif',
-                  fontWeight: 'bold'
-                }}
-              >
-                AI-Powered Solutions
-              </h3>
-              <p 
-                className="text-white"
-                style={{
-                  fontSize: '16px',
-                  fontFamily: 'Arial, sans-serif',
-                  lineHeight: '1.5'
-                }}
-              >
-                Custom AI implementation tailored to your business needs
-              </p>
-            </div>
-            
-            <div className="text-center text-white">
-              <h3 
-                className="text-white mb-4"
-                style={{
-                  fontSize: '24px',
-                  fontFamily: 'Arial, sans-serif',
-                  fontWeight: 'bold'
-                }}
-              >
-                Digital Transformation
-              </h3>
-              <p 
-                className="text-white"
-                style={{
-                  fontSize: '16px',
-                  fontFamily: 'Arial, sans-serif',
-                  lineHeight: '1.5'
-                }}
-              >
-                Modernize your operations with cutting-edge technology
-              </p>
-            </div>
-            
-            <div className="text-center text-white">
-              <h3 
-                className="text-white mb-4"
-                style={{
-                  fontSize: '24px',
-                  fontFamily: 'Arial, sans-serif',
-                  fontWeight: 'bold'
-                }}
-              >
-                Software Development
-              </h3>
-              <p 
-                className="text-white"
-                style={{
-                  fontSize: '16px',
-                  fontFamily: 'Arial, sans-serif',
-                  lineHeight: '1.5'
-                }}
-              >
-                Enterprise-grade software solutions built to scale
-              </p>
-            </div>
-            
-            <div className="text-center text-white">
-              <h3 
-                className="text-white mb-4"
-                style={{
-                  fontSize: '24px',
-                  fontFamily: 'Arial, sans-serif',
-                  fontWeight: 'bold'
-                }}
-              >
-                Strategic Consulting
-              </h3>
-              <p 
-                className="text-white"
-                style={{
-                  fontSize: '16px',
-                  fontFamily: 'Arial, sans-serif',
-                  lineHeight: '1.5'
-                }}
-              >
-                Expert guidance for your technology roadmap
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Latest Project Section */}
-      <section className="py-20 bg-white px-4 sm:px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 
-              className="text-black mb-8"
-              style={{
-                fontSize: 'clamp(32px, 6vw, 48px)',
-                fontFamily: 'Arial, sans-serif',
-                fontWeight: 'bold'
-              }}
-            >
-              Latest Project
-            </h2>
-          </div>
-          
-          <div className="bg-gray-100 rounded-lg p-8 text-center">
-            <h3 
-              className="text-black mb-4"
-              style={{
-                fontSize: '24px',
-                fontFamily: 'Arial, sans-serif',
-                fontWeight: 'bold'
-              }}
-            >
-              Enterprise AI Platform
-            </h3>
-            <p 
-              className="text-black mb-6"
-              style={{
-                fontSize: '16px',
-                fontFamily: 'Arial, sans-serif',
-                lineHeight: '1.5'
-              }}
-            >
-              A comprehensive AI platform that revolutionized data processing for a Fortune 500 company, resulting in 40% efficiency gains.
-            </p>
-            <Link
-              to="/projects"
-              className="bg-black text-white hover:bg-gray-800 focus:bg-gray-800 transition-colors duration-200 touch-manipulation rounded-lg"
-              style={{
-                minWidth: '167px',
-                minHeight: '52px',
-                fontFamily: 'Arial, sans-serif',
-                fontSize: '16px',
-                border: 'none',
-                cursor: 'pointer',
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                textDecoration: 'none',
-                padding: '12px 24px'
-              }}
-            >
-              View Projects
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Our Team Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: '#000000' }}>
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 
-              className="text-white mb-8"
-              style={{
-                fontSize: 'clamp(32px, 6vw, 48px)',
-                fontFamily: 'Arial, sans-serif',
-                fontWeight: 'bold'
-              }}
-            >
-              Our Team
-            </h2>
-          </div>
-          
-          <div className="text-center">
-            <p 
-              className="text-white mb-8"
-              style={{
-                fontSize: '18px',
-                fontFamily: 'Arial, sans-serif',
-                lineHeight: '1.6',
-                maxWidth: '600px',
-                margin: '0 auto'
-              }}
-            >
-              Our diverse team of AI experts, engineers, and strategists brings decades of combined experience in delivering transformative technology solutions.
-            </p>
-            
-            {/* Vertical spacer for better visual separation */}
-            <div className="mb-8"></div>
-            
-            <Link
-              to="/team"
-              className="bg-white text-black hover:bg-gray-100 focus:bg-gray-100 transition-colors duration-200 touch-manipulation rounded-lg"
-              style={{
-                minWidth: '167px',
-                minHeight: '52px',
-                fontFamily: 'Arial, sans-serif',
-                fontSize: '16px',
-                border: 'none',
-                cursor: 'pointer',
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                textDecoration: 'none',
-                padding: '12px 24px'
-              }}
-            >
-              Meet the Team
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* What Our Client Says Section */}
-      <section 
-        ref={testimonialsAnimation.ref as React.RefObject<HTMLElement>}
-        className={`py-20 bg-white px-4 sm:px-6 lg:px-8 transition-all duration-1000 ${
-          testimonialsAnimation.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-        }`}
-      >
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 
-              className="text-black mb-8"
-              style={{
-                fontSize: 'clamp(32px, 6vw, 48px)',
-                fontFamily: 'Arial, sans-serif',
-                fontWeight: 'bold'
-              }}
-            >
-              What Our Client Says
-            </h2>
-          </div>
-          
-          <div className="max-w-4xl mx-auto">
-            <div className="bg-gray-50 rounded-lg p-8 text-center relative">
-              <div className="flex justify-center mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-6 h-6 text-yellow-400 fill-current" />
-                ))}
-              </div>
-              
-              <blockquote 
-                className="text-black mb-6"
-                style={{
-                  fontSize: '18px',
-                  fontFamily: 'Arial, sans-serif',
-                  lineHeight: '1.6',
-                  fontStyle: 'italic'
-                }}
-              >
-                "{testimonials[currentTestimonial].quote}"
-              </blockquote>
-              
-              <div className="text-center">
-                <div 
-                  className="text-black font-bold"
-                  style={{
-                    fontSize: '16px',
-                    fontFamily: 'Arial, sans-serif'
-                  }}
-                >
-                  {testimonials[currentTestimonial].author}
-                </div>
-                <div 
-                  className="text-gray-600"
-                  style={{
-                    fontSize: '14px',
-                    fontFamily: 'Arial, sans-serif'
-                  }}
-                >
-                  {testimonials[currentTestimonial].company}
+      {/* Testimonials */}
+      <section className="py-32 px-6">
+        <div className="max-w-4xl mx-auto text-center space-y-12">
+          <Star className="w-10 h-10 text-accent-cyan mx-auto animate-pulse" />
+          <div className="relative min-h-[200px] flex items-center justify-center">
+            {testimonials.map((t, i) => (
+              <div key={i} className={`absolute transition-all duration-700 ${i === activeTestimonial ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8 pointer-events-none'}`}>
+                <blockquote className="text-3xl font-heading leading-tight tracking-tight italic">
+                  "{t.quote}"
+                </blockquote>
+                <div className="mt-8">
+                  <div className="text-white font-bold tracking-widest text-sm">{t.author.toUpperCase()}</div>
+                  <div className="text-white/40 text-xs mt-1">{t.company}</div>
                 </div>
               </div>
-              
-              <div className="flex justify-center items-center gap-4 mt-8">
+            ))}
+          </div>
+          <div className="flex justify-center items-center gap-8">
+            <button onClick={prevTestimonial} className="p-4 rounded-full border border-white/10 hover:border-accent-cyan transition-colors">
+              <ChevronLeft size={20} />
+            </button>
+            <div className="flex gap-2">
+              {testimonials.map((_, i) => (
                 <button
-                  onClick={prevTestimonial}
-                  className="p-3 rounded-full bg-black text-white hover:bg-gray-800 focus:bg-gray-800 transition-colors touch-manipulation"
-                  style={{ minWidth: '44px', minHeight: '44px' }}
-                  aria-label="Previous testimonial"
-                >
-                  <ChevronLeft className="w-5 h-5" />
-                </button>
-                
-                <div className="flex gap-2">
-                  {testimonials.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setActiveTestimonial(index)}
-                      className={`w-4 h-4 rounded-full transition-colors touch-manipulation ${
-                        index === currentTestimonial ? 'bg-black' : 'bg-gray-300'
-                      }`}
-                      style={{ minWidth: '44px', minHeight: '44px' }}
-                      aria-label={`Go to testimonial ${index + 1}`}
-                    />
-                  ))}
-                </div>
-                
-                <button
-                  onClick={nextTestimonial}
-                  className="p-3 rounded-full bg-black text-white hover:bg-gray-800 focus:bg-gray-800 transition-colors touch-manipulation"
-                  style={{ minWidth: '44px', minHeight: '44px' }}
-                  aria-label="Next testimonial"
-                >
-                  <ChevronRight className="w-5 h-5" />
-                </button>
-              </div>
+                  key={i}
+                  onClick={() => setActiveTestimonial(i)}
+                  className={`w-2 h-2 rounded-full transition-all ${i === activeTestimonial ? 'bg-accent-cyan w-6' : 'bg-white/20'}`}
+                />
+              ))}
             </div>
+            <button onClick={nextTestimonial} className="p-4 rounded-full border border-white/10 hover:border-accent-cyan transition-colors">
+              <ChevronRight size={20} />
+            </button>
           </div>
         </div>
       </section>
 
-      {/* Talk With Us Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: '#000000' }}>
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h2 
-              className="text-white mb-8"
-              style={{
-                fontSize: 'clamp(32px, 6vw, 48px)',
-                fontFamily: 'Arial, sans-serif',
-                fontWeight: 'bold'
-              }}
-            >
-              Talk With Us
-            </h2>
-            
-            <p 
-              className="text-white mb-8"
-              style={{
-                fontSize: '18px',
-                fontFamily: 'Arial, sans-serif',
-                lineHeight: '1.6',
-                maxWidth: '600px',
-                margin: '0 auto 2rem'
-              }}
-            >
-              Ready to transform your business with AI? Let's discuss how we can help you achieve your goals.
+      {/* CTA Section */}
+      <section className="py-32 px-6">
+        <div className="max-w-7xl mx-auto bg-gradient-neon rounded-3xl p-1 lg:p-[1px]">
+          <div className="bg-background rounded-[23px] p-12 lg:p-24 text-center space-y-8 overflow-hidden relative">
+            <div className="absolute top-0 left-0 w-full h-full bg-gradient-neon opacity-[0.03]" />
+            <h2 className="text-6xl font-heading tracking-tighter relative z-10">READY TO BUILD<br />THE FUTURE?</h2>
+            <p className="text-white/60 max-w-xl mx-auto font-body relative z-10 leading-relaxed">
+              Join the vanguard of AI-driven enterprises. Let's discuss how our human-centered technology can elevate your business.
             </p>
-            
-            <Link
-              to="/contact#get-in-touch"
-              onClick={() => handleCTAClick('talk_with_us')}
-              className="bg-white text-black hover:bg-gray-100 focus:bg-gray-100 transition-colors duration-200 touch-manipulation rounded-lg"
-              style={{
-                minWidth: '167px',
-                minHeight: '52px',
-                fontFamily: 'Arial, sans-serif',
-                fontSize: '16px',
-                border: 'none',
-                cursor: 'pointer',
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                textDecoration: 'none',
-                padding: '12px 24px'
-              }}
-            >
-              Get In Touch
-            </Link>
+            <div className="pt-4 relative z-10">
+              <Link to="/contact" className="btn-neon !text-sm tracking-[0.3em] !px-12 !py-4">
+                GET IN TOUCH
+              </Link>
+            </div>
           </div>
         </div>
       </section>
